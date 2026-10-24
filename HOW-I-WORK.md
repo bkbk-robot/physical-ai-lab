@@ -1,64 +1,57 @@
 # How We Work — a human + AI engineering loop
 
-> Scope: **engineering collaboration only.** This document describes how a one-person lab and its AI
-> agent divide work, verify claims, and measure progress. It deliberately contains no personal notes,
-> no credentials, and no internal infrastructure details.
+> Scope: engineering collaboration only. This document describes how a one-person lab and its AI agent
+> divide work, check claims, and track progress. It contains no personal notes, no credentials, and no
+> internal infrastructure details.
 
 ## Roles
 
 | Layer | Human | AI agent |
 |---|---|---|
-| Direction | chooses the problem, the trade-offs, the deadline | proposes options with cost/risk, never decides alone |
-| Physical world | places objects, powers hardware, watches the arm | scripts motion, parses sensors, flags anomalies |
-| Model work | defines what "working" means | trains, evaluates, writes the tooling |
-| Acceptance | final judgement (eyes on the robot) | supplies the numbers that make judgement cheap |
+| Direction | chooses the problem, trade-offs, deadline | proposes options with cost and risk |
+| Physical world | places objects, powers hardware, observes the arm | scripts motion, parses sensors, flags anomalies |
+| Model work | defines what "working" means | trains, evaluates, writes tooling |
+| Acceptance | final judgement on the robot | supplies numbers that make judgement cheap |
 
-## Verification protocol
+## Checking protocol
 
-1. **No claim without a number.** "Better" is not accepted; a metric or a log line is.
-2. **Reproduce before believing.** Every result must be re-runnable from a documented command.
-3. **Instrument first.** When a metric is missing, the next task is building the instrument, not guessing.
-4. **Cross-check sources.** Log values are compared against raw state where possible; a mismatch means
-   the parser is wrong before it means the model is wrong.
+1. No conclusion without a number; "better" is not accepted as a result.
+2. Results must be re-runnable from a documented command.
+3. When a metric is missing, building the instrument comes before drawing conclusions.
+4. Log values are cross-checked against raw state; a mismatch indicates a parsing problem before a model problem.
 
 ## Change discipline
 
-- Back up working code before modifying it; keep a one-command rollback.
-- One variable per experiment; if two things change, the result cannot be attributed.
-- Roadmap decisions get written down, then executed; they are not re-litigated mid-run.
-- Fixed launch procedure for every physical test: preflight checks, reset, capture before/after evidence.
+- Working code is backed up before modification, with a one-command rollback.
+- One variable per experiment; two simultaneous changes make the result unattributable.
+- Physical tests follow a fixed procedure: preflight checks, reset, before/after evidence.
 
-## Growth metric
-
-Progress is plotted, not narrated:
+## Progress measure
 
 - success rate per iteration (objects placed / objects present)
-- time-to-completion per run
-- number of failure modes eliminated (with the instrument that detects each one)
+- time to completion per run
+- list of failure modes eliminated, with the instrument that detects each one
 
-A flat curve is treated as information, not as a reason to tweak parameters.
+A flat curve is recorded as information rather than followed by parameter changes.
 
 ## Boundaries
 
 - Safety-relevant actions stay with the human (power, workspace, motion limits).
-- Credentials never enter shared channels or public repositories.
-- The agent may propose; the human commits.
+- Credentials are not stored in shared channels or public repositories.
+- The agent proposes; the human decides.
 
-## Case notes (what the loop actually catches)
+## Case notes
 
-**1. A parser bug that looked like a model failure.** Per-joint action ranges were read from a log column
-order that did not match the print order, producing a confident but wrong diagnosis ("the arm is
-extrapolating far outside the training range"). Cross-checking the same log against raw state values
-showed the arm had stayed inside the demonstrated range the whole time. Fix: print with explicit labels.
+**1. Log column order.** Per-joint action ranges were read with a column order that did not match the
+print order. The resulting diagnosis (motion far outside the training range) was incorrect; comparing the
+same log against raw state values showed the arm had stayed inside the demonstrated range. Log output was
+changed to labelled columns.
 
-**2. A hardware fault masked as a policy problem.** Several "the policy cannot grasp" runs were measured
-while one or two servos were intermittently dropping off the serial bus. A six-motor preflight check now
-runs before every trial, so a bad arm can no longer be mistaken for a bad model.
+**2. Servo dropouts.** Some evaluation runs took place while one or two servos were intermittently
+dropping off the serial bus, which affected the measurements. A six-motor preflight check now runs before
+each trial.
 
-**3. A configuration default that silently blocks learning.** The default fine-tune keeps the
-vision-language backbone frozen (`train_expert_only=true`). This is invisible in the training logs but
-explains why the policy grounds objects only where they appeared during data collection. The finding came
-from reading the checkpoint config rather than re-tuning hyperparameters.
-
-Each case follows the same pattern: **the human suspects the story is wrong, the agent produces the
-measurement that settles it.**
+**3. Backbone training flag.** The default fine-tune keeps the vision-language backbone frozen
+(`train_expert_only=true`). This does not appear in training logs but is consistent with the policy
+grounding objects only where they appeared during data collection. The setting was found by reading the
+checkpoint config.
