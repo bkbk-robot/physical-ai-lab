@@ -1,3 +1,9 @@
+## Status
+
+| Date | Capability | Success (objects in tray) | Next |
+|---|---|---|---|
+| 2026-10-24 | pick-and-place inside demonstrated workspace | baseline recorded (0-1 / 3 per run) | evaluate VLM-unfrozen checkpoint |
+
 # Physical AI Lab Notes
 
 Daily, reproducible notes from a one-person physical-AI lab: fine-tuning vision-language-action
