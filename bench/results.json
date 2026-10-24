@@ -1,8 +1,23 @@
 {
-  "note": "one entry per trial; gained = after_tray - before_tray",
-  "trials": [
-    {"date": "2026-10-24", "model": "smolvla_left3_99/090000",
-     "before_tray": 0, "after_tray": 0, "gained": 0, "seconds": 137,
-     "comment": "baseline; servos were intermittently offline during part of the day"}
-  ]
+ "note": "one entry per trial; gained = after_tray - before_tray",
+ "trials": [
+  {
+   "date": "2026-10-24",
+   "model": "smolvla_left3_99/090000",
+   "before_tray": 0,
+   "after_tray": 0,
+   "gained": 0,
+   "seconds": 137,
+   "comment": "baseline; servos were intermittently offline during part of the day"
+  },
+  {
+   "date": "2026-10-24",
+   "env": "mujoco (sim)",
+   "model": "scripted IK baseline",
+   "scenes": 10,
+   "avg_in_tray": 2.0,
+   "of": 3,
+   "comment": "sim evaluation harness: randomized block positions, IK baseline with simplified grasp (block attached to TCP when jaws close). Establishes an upper bound for VLA comparison."
+  }
+ ]
 }
