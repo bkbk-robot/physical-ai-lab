@@ -27,6 +27,17 @@
    "placed": 3,
    "note": "operator placed objects inside the robot workspace; policy performed grasp, lift, transfer, release for all three",
    "config": "raw policy output, 150 s, no smoothing"
+  },
+  {
+   "date": "2026-10-25",
+   "env": "real SO-101",
+   "model": "smolvla_left3_vlm/060000",
+   "protocol": "sequential single-object cycles (grasp -> place -> next)",
+   "objects": 3,
+   "placed": 3,
+   "success_rate": ">90% per cycle",
+   "assistance": "none",
+   "comment": "handling one object at a time is reliable; targeting several objects simultaneously is not"
   }
  ]
 }
