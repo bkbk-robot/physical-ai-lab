@@ -18,6 +18,15 @@
    "avg_in_tray": 2.0,
    "of": 3,
    "comment": "sim evaluation harness: randomized block positions, IK baseline with simplified grasp (block attached to TCP when jaws close). Establishes an upper bound for VLA comparison."
+  },
+  {
+   "date": "2026-10-25",
+   "env": "real SO-101",
+   "model": "smolvla_left3_vlm/060000",
+   "objects": 3,
+   "placed": 3,
+   "note": "operator placed objects inside the robot workspace; policy performed grasp, lift, transfer, release for all three",
+   "config": "raw policy output, 150 s, no smoothing"
   }
  ]
 }
