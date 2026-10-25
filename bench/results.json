@@ -38,6 +38,17 @@
    "success_rate": ">90% per cycle",
    "assistance": "none",
    "comment": "handling one object at a time is reliable; targeting several objects simultaneously is not"
+  },
+  {
+   "date": "2026-10-25",
+   "env": "real SO-101",
+   "model": "smolvla_left3_vlm/060000",
+   "protocol": "sequential single-object cycles",
+   "objects": 3,
+   "placed": 3,
+   "time_seconds": 90,
+   "assistance": "none",
+   "note": "all three objects placed in about 90 seconds (~30 s per object)"
   }
  ]
 }
